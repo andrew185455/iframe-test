@@ -1,0 +1,80 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API POST Request</title>
+</head>
+<body>
+  <h1>API Request Example</h1>
+  <button onclick="makeApiRequest()">Send API Request</button>
+
+  <!-- Container to display the script tag -->
+  <div id="payment_form_container">
+    <!-- The script tag will be inserted here after the API response -->
+  </div>
+
+  <script>
+    // API URL
+    const apiUrl = 'https://cst.test-gsc.vfims.com/oidc/checkout-service/v2/checkout';
+
+    // Basic Authentication credentials
+    const username = 'e14c61c2-d4bb-44ed-a413-1e9f4f9d5bb8'; // Replace with your actual username
+    const password = 'zEekpiUXQEpEUTlLVopmWBoFONAzVpXZZOOP'; // Replace with your actual password
+
+    // Fetch the payload from the JSON file (you can replace this with a file path if hosted)
+    fetch('requestData.json')
+      .then(response => response.json())
+      .then(payload => {
+        // Attach the payload to the function when the JSON is successfully loaded
+        window.payload = payload;
+      })
+      .catch(err => console.error('Error loading JSON:', err));
+
+    // Function to make the POST request
+    async function makeApiRequest() {
+      try {
+        // Ensure the payload is loaded before proceeding
+        if (!window.payload) {
+          alert('Payload is not loaded yet!');
+          return;
+        }
+
+        // Create the basic auth header
+        const authHeader = 'Basic ' + btoa(username + ':' + password);
+
+        // Send the POST request with headers and body
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': authHeader
+          },
+          body: JSON.stringify(window.payload) // Use the payload loaded from the JSON
+        });
+
+        // Check if the response was successful
+        if (response.ok) {
+          const responseData = await response.json();
+          
+          // Extract the "url" parameter from the response
+          if (responseData.url) {
+            // Create a new <script> element with the src set to the returned URL
+            const scriptElement = document.createElement('script');
+            scriptElement.defer = true;
+            scriptElement.src = responseData.url;
+
+            // Append the <script> element to the "payment_form_container"
+            document.getElementById('payment_form_container').appendChild(scriptElement);
+          } else {
+            console.error('No "url" field found in the response');
+          }
+        } else {
+          console.error('Error: ' + response.statusText);
+        }
+      } catch (error) {
+        console.error('An error occurred:', error);
+      }
+    }
+  </script>
+</body>
+</html>

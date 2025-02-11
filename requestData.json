@@ -1,0 +1,43 @@
+{
+    "amount": 1000,
+    "currency_code": "GBP",
+    "entity_id": "bd81de1b-782d-4e44-87bb-770063846fea",
+    "customer_details": {
+        "entity_id": "bd81de1b-782d-4e44-87bb-770063846fea",
+        "billing": {
+            "address_1": "123 test st",
+            "city": "test city",
+            "country_code": "RO",
+            "first_name": "John",
+            "last_name": "Doe",
+            "phone": "0700000000",
+            "postal_code": "010010",
+            "state": "Test"
+        },
+        "email_address": "test@test.com",
+        "phone_number": "0700000000",
+        "shipping": {
+            "address_1": "123 test st",
+            "city": "test city",
+            "country_code": "RO",
+            "first_name": "test",
+            "last_name": "test",
+            "phone": "0700000000",
+            "postal_code": "010010",
+            "state": "Test"
+        }
+    },
+    "configurations": {
+        "card": {
+            "mode": "3DS_PAYMENT",
+            "threed_secure": {
+                "enabled": true,
+                "threeds_contract_id": "71d6ab9a-4c0f-450d-860d-97e036a78026"
+            },
+            "payment_contract_id": "23b0e9ed-4a56-4c9c-9dee-fe23b1bf4abf"
+           
+        }
+    },
+    "merchant_reference": "1",
+    "interaction_type": "IFRAME" 
+}
